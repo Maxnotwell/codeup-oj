@@ -1,0 +1,43 @@
+#include <iostream>
+#define maxn 100010
+using namespace std;
+void merge(double a[], int l1, int r1, int l2, int r2){
+	int i = l1, j = l2, index = 0;
+	double temp[maxn];
+	while(i <= r1 && j <= r2){
+		if(a[i] < a[j])
+			temp[index++] = a[i++];
+		else
+			temp[index++] = a[j++];
+	}
+	while(i <= r1)
+		temp[index++] = a[i++];
+	while(j <= r2)
+		temp[index++] = a[j++];
+	for(i = 0; i < index; ++i)
+		a[l1 + i] = temp[i];
+}
+void mergesort(double a[], int low, int high){
+	if(low < high){
+		int mid = (low + high) / 2;
+		mergesort(a, low, mid);
+		mergesort(a,mid + 1, high);
+		merge(a, low, mid, mid + 1, high);
+	}
+	else
+		return;
+}
+int main(){
+	int n, m;
+	double arr[maxn];
+	cin >> n;
+	while(n--){
+		cin >> m;
+		for(int i = 0; i < m; ++i)
+			cin >> arr[i];
+		mergesort(arr, 0, m-1);
+		for(int i = 0; i < m; ++i)
+			cout << arr[i] << endl;
+	}
+	return 0;
+}

@@ -1,0 +1,41 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+int randPartition (int a[], int low, int high){
+	int p = (rand() % (high - low) + low);
+	swap(a[p], a[low]);
+	int temp = a[low];
+	while(low < high){
+		while(low < high && a[high] < temp)
+			high--;
+		a[low] = a[high];
+		while(low < high && a[low] > temp)
+			low++;
+		a[high] = a[low];
+	}
+	a[low] = temp;
+	return low;
+}
+int randselect(int a[], int low, int high, int k){
+	if(low == high)
+		return a[low];
+	int p = randPartition(a, low, high);
+	int m = p - low + 1;
+	if(k == m)
+		return a[p];
+	if(k < m)
+		return randselect(a, low, p - 1, k);
+	else 
+		return randselect(a, p + 1, high, k - m);
+}
+int main(){
+	int n,k;
+	int arr[1000000];
+	while(cin >> n >> k){
+		srand((unsigned)time(NULL));
+		for(int i = 0; i < n; ++i)
+			cin >> arr[i];
+		cout << randselect(arr, 0, n - 1, k) << endl;
+	}
+	return 0;
+}

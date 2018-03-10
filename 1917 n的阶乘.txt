@@ -1,0 +1,36 @@
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <vector>
+using namespace std;
+vector<int> multiple(vector<int> a, int n) {
+	vector<int> c;
+	int carry = 0;
+	for (int i = 0; i < a.size(); ++i) {
+		int temp = a[i] * n + carry;
+		c.push_back(temp % 10);
+		carry = temp / 10;
+	}
+	while (carry != 0) {
+		c.push_back(carry % 10);
+		carry = carry / 10;
+
+	}
+	return c;
+}
+void print(vector<int> n) {
+	for (int i = n.size() - 1; i >= 0; --i)
+		cout << n[i];
+	cout << endl;
+}
+int main() {
+	int n;
+	while (cin >> n) {
+		vector<int> num;
+		num.push_back(1);
+		for (int i = 1; i <= n; ++i) {
+			num = multiple(num, i);
+		}
+		print(num);
+	}
+}

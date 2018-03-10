@@ -1,0 +1,16 @@
+#include <iostream>
+using namespace std;
+int main() {
+	int a[2][3], b[3][2];
+	while (scanf("%d%d%d%d%d%d", &a[0][0], &a[0][1], &a[0][2], &a[1][0], &a[1][1], &a[1][2]) != EOF) {
+		int c[2][2]={0};
+		for (int i = 0; i < 3; ++i)
+			for (int j = 0; j < 2; ++j)
+				cin >> b[i][j];
+		for (int i = 0; i < 2; ++i)
+			for (int j = 0; j < 2; ++j)
+				for (int k = 0; k < 3; ++k)
+					c[i][j] += a[i][k] * b[k][j];
+		printf("%d %d\n%d %d\n", c[0][0], c[0][1], c[1][0], c[1][1]);
+	}
+}

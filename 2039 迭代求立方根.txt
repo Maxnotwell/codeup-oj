@@ -1,0 +1,18 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+double iteration(double x, double n) {
+	if (!n)
+		return x;
+	double sum, y;
+	y = iteration(x, n - 1);
+	sum = y * 2 / 3 + x / (3 * y * y);
+	return sum;
+}
+int main() {
+	double x, n;
+	while (scanf("%lf%lf", &x, &n) != EOF) {
+		cout << fixed << setprecision(6) << iteration(x, n) << endl;
+	}
+	return 0;
+}
