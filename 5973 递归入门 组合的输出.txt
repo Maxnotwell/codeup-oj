@@ -1,0 +1,20 @@
+#include <iostream>
+using namespace std;
+int r, n;
+int a[25];
+void DFS(int num, int count) {
+	a[count] = num;
+	if (count == n) {
+		cout << a[1];
+		for (int i = 2; i <= n; ++i)
+			cout << ' ' << a[i];
+		cout << endl;
+		return;
+	}
+	for (int i = num + 1; i <= r; ++i)
+		DFS(i, count + 1);
+}
+int main() {
+	cin >> r >> n;
+	DFS(0, 0);
+}

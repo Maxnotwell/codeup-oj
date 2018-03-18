@@ -1,0 +1,45 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+#define maxn 2510
+int hashname(char s[]) {
+	int sum = 0;
+	for (int i = 0; i < 3; ++i)
+		sum = sum * 26 + s[i] - 'A';
+	sum = sum * 10 + s[3] - '0';
+	return sum;
+}
+void rhashname(int n, char s[]) {
+	s[3] = n % 10 + '0';
+	n /= 10;
+	for (int i = 2; i >= 0; --i) {
+		s[i] = n % 26 + 'A';
+		n /= 26;
+	}
+	return;
+}
+int main() {
+	int n, k, count;
+	cin >> n >> k;
+	vector<int> course[maxn];
+	char name[5];
+	for (int j = 0; j < n; ++j) {
+		cin >> name;
+		int hname = hashname(name);
+		cin >> count;
+		for (int i = 0; i < count; ++i) {
+			int temp;
+			cin >> temp;
+			course[temp].push_back(hname);
+		}
+	}
+	for (int i = 1; i <= k; ++i) {
+		cout << i << ' ' << course[i].size() << endl;
+		sort(course[i].begin(), course[i].end());
+		for (int j = 0; j < course[i].size(); ++j) {
+			rhashname(course[i][j], name);
+			cout << name << endl;
+		}
+	}
+}

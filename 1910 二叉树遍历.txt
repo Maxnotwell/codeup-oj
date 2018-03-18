@@ -1,0 +1,36 @@
+#include <iostream>
+#include <string>
+using namespace std;
+typedef struct BTnode{
+	char val;
+	struct BTnode *lchild, *rchild;
+}BTnode;
+BTnode *create(string a, string b, int n){
+	if(n <= 0)
+		return NULL;
+	BTnode *p = new BTnode;
+	p->val = a[0];
+	p->lchild = p->rchild = NULL;
+	int temp = b.find(a[0]);
+	p->lchild = create(a.substr(1), b, temp);
+	p->rchild = create(a.substr(1+temp), b.substr(1+temp), n-temp-1);
+	return p;
+}
+void postorder(BTnode *p){
+	if(p!=NULL){
+		postorder(p->lchild);
+		postorder(p->rchild);
+		cout << p->val;
+	}
+	return;
+}
+int main(){
+	string s1, s2;
+	while(cin >> s1 >> s2){
+		int len = s1.length();
+		BTnode *t = create(s1, s2, len);
+		postorder(t);
+		cout << endl;
+	}
+	return 0;
+}

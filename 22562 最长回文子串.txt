@@ -1,0 +1,41 @@
+#include <iostream>
+#include <cstring>
+#include <cstdio>
+#include <cctype>
+using namespace std;
+char str[5000];
+char big[5000];
+int pos[5000], dp[5000][5000] = { 0 };
+int main() {
+	int index = 0, len, head;
+	gets(str);
+	int len1 = strlen(str);
+	for (int i = 0; i < len1; ++i) {
+		if (isalpha(str[i])) {
+			big[index] = toupper(str[i]);
+			pos[index] = i;
+			index++;
+		}
+	}
+	int len2 = strlen(big);
+	for (int i = 0; i < len2; ++i) {
+		dp[i][i] = 1;
+		if (i < len2 - 1)
+			if (big[i] == big[i + 1]) {
+				dp[i][i + 1] = 1;
+				len = 2;
+				head = i;
+			}
+	}
+	for (int i = 3; i <= len2; ++i) {
+		for (int j = 0; j + i <= len2; ++j) {
+			if (big[j] == big[j + i - 1] && dp[j + 1][j + i - 2]) {
+				dp[j][j + i - 1] = 1;
+				len = i;
+				head = j;
+			}
+		}
+	}
+	for (int i = pos[head]; i <= pos[head + len - 1]; ++i)
+		cout << str[i];
+}

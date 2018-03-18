@@ -1,0 +1,75 @@
+#include <iostream>
+#include <map>
+#include <queue>
+#include <string>
+using namespace std;
+struct dispatch {
+	string task;
+	int level;
+	friend bool operator < (const dispatch a, const dispatch b) {
+		if (a.level != b.level)
+			return a.level > b.level;
+		else
+			return a.task > b.task;
+	}
+};
+void spilt(string str, priority_queue<dispatch> &que, map<string, int> &level){
+	string pretask;
+	int prelevel = -1;
+	int pos = str.find('(');
+	for (int i = 0; i < pos; ++i) {
+		pretask += str[i];
+	}
+	str.erase(str.begin(), str.begin() + pos + 1);
+	str.erase(str.end() - 1, str.end());
+	if (level.count(pretask) == 0) {
+		dispatch pre;
+		pre.task = pretask;
+		pre.level = prelevel = 0;
+		que.push(pre);
+		level[pretask] = 0;
+	}
+	else
+		prelevel = level[pretask];
+	while (str.size()) {
+		string nexttask;
+		dispatch next;
+		int pos = str.find(',');
+		if (pos != string::npos) {
+			for (int i = 0; i < pos; ++i) {
+				nexttask += str[i];
+			}
+			str.erase(str.begin(), str.begin() + pos + 1);
+		}
+		else {
+			nexttask = str;
+			str.clear();
+		}
+		if (nexttask != "NULL") {
+			next.task = nexttask;
+			next.level = prelevel + 1;
+			que.push(next);
+			level[nexttask] = next.level;
+		}
+	}
+}
+int main() {
+	int n;
+	string task;
+	priority_queue<dispatch> que;
+	map<string, int> level;
+	while (cin >> n) {
+		while (n--) {
+			cin >> task;
+			spilt(task, que, level);
+		}
+		while (!que.empty()) {
+			cout << que.top().task;
+			que.pop();
+			if (!que.empty())
+				cout << ' ';
+		}
+		cout << endl;
+	}
+	return 0;
+}

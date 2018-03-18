@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+int exgcd(int a, int b, int &x, int &y) {
+	if (b == 0) {
+		x = 1;
+		y = 0;
+		return a;
+	}
+	int g = exgcd(b, a%b, x, y);
+	int temp = x;
+	x = y;
+	y = temp - (a / b)*y;
+	return g;
+}
+int main() {
+	int a, b, x, y;
+	while (cin >> a >> b) {
+		int flag = 0;
+		if (a < b) {
+			swap(a, b);
+			flag = 1;
+		}
+		int gcd = exgcd(a, b, x, y);
+		if (flag)
+			cout << (y % (a / gcd) + a / gcd) % (a / gcd) << endl;
+		else
+			cout << (x % (b / gcd) + b / gcd) % (b / gcd) << endl;
+	}
+}

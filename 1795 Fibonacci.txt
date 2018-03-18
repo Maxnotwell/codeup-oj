@@ -1,0 +1,21 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+int Fib(int a[], int n) {
+	if (n == 0)
+		return 0;
+	if (n == 1)
+		return 1;
+	if (a[n] != -1)
+		return a[n];
+	a[n] = Fib(a, n - 1) + Fib(a, n - 2);
+	return a[n];
+}
+int main() {
+	int n;
+	while (cin >> n) {
+		int a[35];
+		fill(a, a + n + 1, -1);
+		cout << Fib(a, n) << endl;
+	}
+}

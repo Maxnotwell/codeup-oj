@@ -1,0 +1,45 @@
+#include <iostream>
+using namespace std;
+typedef struct LNode {
+	int num;
+	int score;
+	struct LNode *next;
+}LNode, *LList;
+int main() {
+	int m, n;
+	cin >> m >> n;
+	LList L = new LNode;
+	L->next = NULL;
+	for (int i = 0; i < m + n; ++i) {
+		LList d = new LNode;
+		cin >> d->num >> d->score;
+		d->next = L->next;
+		L->next = d;
+	}
+	LList min, pre_min, p, pre, base;
+	base = L;
+	while (base->next) {
+		min = base->next;
+		pre_min = base;
+		p = base->next;
+		pre = base;
+		while (p) {
+			if (p->num < min->num) {
+				min = p;
+				pre_min = pre;
+			}
+			pre = p;
+			p = p->next;
+		}
+		pre_min->next = min->next;
+		min->next = base->next;
+		base->next = min;
+		base = min;
+	}
+	p = L->next;
+	while (p) {
+		cout << p->num << ' ' << p->score << endl;
+		p = p->next;
+	}
+	return 0;
+}

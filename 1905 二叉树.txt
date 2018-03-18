@@ -1,0 +1,22 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+int main() {
+	int m, n;
+	while (cin >> m >> n && m != 0 && n != 0) {
+		int depth = 0, temp = m, sum = 0;
+		while (temp <= n) {
+			temp *= 2;
+			depth++;
+		}
+		sum = pow(2, depth - 1) - 1;
+		int limit = m;
+		for (int i = 1; i < depth; ++i) {
+			limit = limit * 2 + 1;
+		}
+		if(limit > n)
+			limit = n;
+		sum = sum + limit - temp / 2 + 1;
+		cout << sum << endl;
+	}
+}

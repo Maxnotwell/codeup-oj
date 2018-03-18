@@ -1,0 +1,41 @@
+#include <iostream>
+#include <vector>
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
+#define maxn 26*26*26*10+10
+using namespace std;
+int hashname(char s[]) {
+	int sum = 0;
+	for (int i = 0; i < 3; ++i)
+		sum = sum * 26 + s[i] - 'A';
+	sum = sum * 10 + s[3] - '0';
+	return sum;
+}
+int main() {
+	int n, k, hname;
+	vector<int> stu[maxn];
+	char name[5];
+	cin >> n >> k;
+	while (k--) {
+		int course, count;
+		cin >> course >> count;
+		while (count--) {
+			cin >> name;
+			hname = hashname(name);
+			stu[hname].push_back(course);
+		}
+	}
+	while (n--) {
+		cin >> name;
+		cout << name;
+		hname = hashname(name);
+		int len = stu[hname].size();
+		cout << " " << len;
+		sort(stu[hname].begin(), stu[hname].end());
+		for (int i = 0; i < len; ++i) {
+			cout << ' ' << stu[hname][i];
+		}
+		cout << endl;
+	}
+}

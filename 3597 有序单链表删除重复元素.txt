@@ -1,0 +1,56 @@
+#include <iostream>
+using namespace std;
+typedef struct LNode {
+	int data;
+	struct LNode *next;
+}LNode, *LList;
+int main() {
+	int n;
+	while (cin >> n) {
+		LList L = new LNode;
+		L->next = NULL;
+		LList p = L;
+		LList pre;
+		if (!n)
+			cout << "list is empty" << endl;
+		else {
+			for (int i = 0; i < n; ++i) {
+				LList temp = new LNode;
+				cin >> temp->data;
+				temp->next = p->next;
+				p->next = temp;
+				p = temp;
+			}
+			p = L->next;
+			while (p->next) {
+				cout << p->data << ' ';
+				p = p->next;
+			}
+			cout << p->data << endl;
+			
+			pre = L->next;
+			p = pre->next;
+			for (int i = 1; i < n; ++i) {
+				if(pre->data == p->data){
+					pre->next = p->next;
+					free(p);
+					p = pre->next;
+				}
+				else{
+					pre = p;
+					p = p->next;
+				}
+			}
+			p = L->next;
+			if(p){
+				while (p->next) {
+					cout << p->data << ' ';
+					p = p->next;
+				}
+				cout << p->data << endl;
+			}
+			else
+				cout << "list is empty" << endl;
+		}
+	}
+}

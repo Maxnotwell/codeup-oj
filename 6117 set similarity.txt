@@ -1,0 +1,28 @@
+#include <iostream>
+#include <set>
+#include <iomanip>
+using namespace std;
+int main() {
+	int n, m, k, a, b, temp;
+	set<int> s[55];
+	cin >> n;
+	for (int i = 1; i <= n; ++i) {
+		cin >> m;
+		while (m--) {
+			cin >> temp;
+			s[i].insert(temp);
+		}
+	}
+	cin >> k;
+	while (k--) {
+		cin >> a >> b;
+		int comn = 0;
+		set<int> ::iterator it;
+		for (it = s[a].begin(); it != s[a].end(); ++it)
+			if (s[b].find(*it) != s[b].end())
+				comn++;
+		int div = s[a].size() + s[b].size() - comn;
+		cout << fixed << setprecision(1) << (float)comn / div * 100 << '%' << endl;
+	}
+	return 0;
+}

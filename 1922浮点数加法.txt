@@ -1,0 +1,79 @@
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+using namespace std;
+struct fnum {
+	int p[100], q[100];
+	int len1, len2;
+	fnum() {
+		memset(p, 0, sizeof(p));
+		memset(q, 0, sizeof(q));
+		len1 = 0, len2 = 0;
+	}
+};
+fnum transform(char s[]) {
+	int len = 0;
+	fnum a;
+	while (s[len] != '.') {
+		++len;
+	}
+	for (int i = len - 1; i >= 0; --i) {
+		a.p[a.len1++] = s[i] - '0';
+	}
+	for (int i = strlen(s) - 1; i >= len + 1; --i) {
+		a.q[a.len2++] = s[i] - '0';
+	}
+	return a;
+}
+fnum add(fnum a, fnum b) {
+	int carry = 0;
+	for (int i = a.len2 - b.len2, j = 0; i < a.len2; ++i, ++j) {
+		int temp = a.q[i] + b.q[j] + carry;
+		a.q[i] = temp % 10;
+		carry = temp / 10;
+	}
+	int i, j;
+	for (i = 0; i < a.len1 || i < b.len1; ++i) {
+		int temp = a.p[i] + b.p[i] + carry;
+		a.p[i] = temp % 10;
+		carry = temp / 10;
+	}
+	a.len1 = a.len1 > b.len1 ? a.len1 : b.len1;
+	while (carry != 0) {
+		a.p[a.len1++] = carry % 10;
+		carry = carry / 10;
+	}
+	return a;
+}
+void print(fnum c) {
+	int index = 0;
+	while(c.q[index] == 0)
+		index++;
+	for (int i = c.len1 - 1; i >= 0; --i)
+		cout << c.p[i];
+	cout << '.';
+	for (int j = c.len2 - 1; j >= index; --j)
+		cout << c.q[j];
+	cout << endl;
+}
+int main() {
+	int n;
+	fnum a, b, c;
+	cin >> n;
+	while (n--) {
+		char temp1[210], temp2[210];
+		cin >> temp1 >> temp2;
+		a = transform(temp1);
+		b = transform(temp2);
+		int carry = 0, len = 0;
+		bool cmp = a.len2 > b.len2 ? 1 : 0;
+		if (cmp) {
+			c = add(a, b);
+		}
+		else {
+			c = add(b, a);
+		}
+		print(c);
+	}
+	return 0;
+}

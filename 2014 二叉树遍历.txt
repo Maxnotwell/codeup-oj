@@ -1,0 +1,44 @@
+#include <iostream>
+#include <string>
+#include <stack>
+using namespace std;
+typedef struct BTnode {
+	char val;
+	struct BTnode *lchild, *rchild;
+}BTnode;
+int index;
+BTnode *DFS(string a, int n) {
+	if (index == n)
+		return NULL;
+	BTnode *p = new BTnode;
+	if (a[index] == '#') {
+		index++;
+		return NULL;
+	}
+	p->val = a[index];
+	p->lchild = p->rchild = NULL;
+	index++;
+	p->lchild = DFS(a, n);
+	p->rchild = DFS(a, n);
+	return p;
+}
+void midorder(BTnode *p) {
+	if (p != NULL) {
+		midorder(p->lchild);
+		cout << p->val << ' ';
+		midorder(p->rchild);
+	}
+	return;
+}
+int main() {
+	string s;
+	while (cin >> s) {
+		index = 0;
+		BTnode *BiTree;
+		int len = s.length();
+		BiTree = DFS(s, len);
+		midorder(BiTree);
+		cout << endl;
+	}
+	return 0;
+}

@@ -1,0 +1,64 @@
+#include <iostream>
+#define INF 99999
+using namespace std;
+
+typedef struct {
+	int vex[53];
+	int edge[53][53];
+	int vexnum;
+}Graph;
+
+void Dij(Graph &G, int s, int dist[]) {
+	int set[50];
+	int min, k;
+	for (int i = 0; i < G.vexnum; ++i) {
+		dist[i] = G.edge[s][i];
+		set[i] = 0;
+	}
+	set[s] = 1;
+	for (int i = 1; i < G.vexnum; ++i) {
+		min = INF;
+		for (int j = 0; j < G.vexnum; ++j) {
+			if (set[j] == 0 && dist[j] < min) {
+				min = dist[j];
+				k = j;
+			}
+		}
+		set[k] = 1;
+		for (int j = 0; j < G.vexnum; ++j) {
+			if (set[j] == 0 && (dist[k] + G.edge[k][j] < dist[j]))
+				dist[j] = dist[k] + G.edge[k][j];
+
+		}
+	}
+}
+
+int main() {
+	int n, s;
+	int dist[50];
+	Graph G;
+	cin >> n >> s;
+	G.vexnum = n;
+	for (int i = 0; i < n; ++i) {
+		G.vex[i] = i;
+		for (int j = 0; j < n; ++j) {
+			int temp;
+			cin >> temp;
+			if (temp == 0)
+				G.edge[i][j] = INF;
+			else
+				G.edge[i][j] = temp;
+		}
+	}
+	Dij(G, s, dist);
+	for (int i = 0; i < n; ++i) {
+		if (i == s)
+			continue;
+		else if (dist[i] == INF)
+			cout << "-1" << ' ';
+		else
+			cout << dist[i] << ' ';
+	}
+	system("pause");
+	return 0;
+}

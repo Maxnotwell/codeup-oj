@@ -1,0 +1,19 @@
+#include <iostream>
+using namespace std;
+int n, seq = 0;
+void DFS(int left, int right) {
+	if (left < 0)
+		return;
+	if (right == 0) {
+		seq++;
+		return;
+	}
+	DFS(left + 1, right - 1);
+	DFS(left - 1, right);
+}
+int main() {
+	cin >> n;
+	DFS(0, n);
+	cout << seq;
+	return 0;
+}

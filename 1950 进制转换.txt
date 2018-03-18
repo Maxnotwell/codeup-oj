@@ -1,0 +1,46 @@
+#include <iostream>
+#include <cstring>
+#include <string>
+using namespace std;
+int main() {
+	int m, n;
+	string x;
+	while (cin >> m >> n) {
+		cin >> x;
+		int data[1010], ans[1010];
+		memset(ans, 0, sizeof(ans));
+
+		int len = x.length();
+		for (int i = 0; i < len; ++i) {
+			if (x[i] >= '0' && x[i] <= '9')
+				data[i] = x[i] - '0';
+			else if (x[i] >= 'A'&&x[i] <= 'Z')
+				data[i] = x[i] - 'A' + 10;
+		}
+		int sum = 1, index = 0;
+		while (sum) {
+			sum = 0;
+			for (int i = 0; i < len; ++i) {
+				int temp = data[i] / n;
+				sum += temp;
+				if (i == len - 1)
+					ans[index++] = data[i] % n;
+				else
+					data[i + 1] += (data[i] % n)*m;
+				data[i] = temp;
+			}
+		}
+		if (index == 0)
+			cout << 0;
+		else {
+			for (int i = 0; i < index; ++i) {
+				if (ans[index - i - 1] > 9)
+					cout << (char)(ans[index - i - 1] + 'a' - 10);
+				else
+					cout << (char)(ans[index - i - 1] + '0');
+			}
+		}
+		cout << endl;
+	}
+	return 0;
+}

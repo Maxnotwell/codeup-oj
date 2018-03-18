@@ -1,0 +1,51 @@
+#include <iostream>
+using namespace std;
+typedef struct LNode {
+	int data;
+	struct LNode *next;
+}LNode, *LList;
+int main() {
+	int x, n;
+	cin >> x >> n;
+	LList L = new LNode;
+	L->next = NULL;
+	LList p = L;
+	LList pre = L;
+	for (int i = 0; i < n; ++i) {
+		LList temp = new LNode;
+		cin >> temp->data;
+		temp->next = p->next;
+		p->next = temp;
+		p = temp;
+	}
+	p = L->next;
+	while (p) {
+		if (p->data == x) {
+			pre->next = p->next;
+			pre = p->next;
+			p->next = pre->next;
+			pre->next = p;
+			break;
+		}
+		if (p->data > x) {
+			LList temp = new LNode;
+			temp->data = x;
+			temp->next = p;
+			pre->next = temp;
+			break;
+
+		}
+		pre = p;
+		p = p->next;
+	}
+	if (p->data != x)
+		cout << "no" << endl;
+	else
+		cout << x << endl;
+	p = L->next;
+	while (p->next) {
+		cout << p->data << ' ';
+		p = p->next;
+	}
+	cout << p->data;
+}
